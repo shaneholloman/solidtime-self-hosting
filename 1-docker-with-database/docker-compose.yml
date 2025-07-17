@@ -14,7 +14,7 @@ services:
     environment:
       CONTAINER_MODE: http
     healthcheck:
-      test: [ "CMD-SHELL", "curl --fail http://localhost:8000/health-check/up || exit 1" ]
+      test: [ "CMD", "curl", "--fail", "http://localhost:8000/health-check/up" ]
     env_file:
       - laravel.env
     depends_on:
@@ -32,7 +32,7 @@ services:
     environment:
       CONTAINER_MODE: scheduler
     healthcheck:
-      test: [ "CMD-SHELL", "supervisorctl status scheduler:scheduler_00" ]
+      test: [ "CMD", "healthcheck" ]
     env_file:
       - laravel.env
     depends_on:
@@ -51,7 +51,7 @@ services:
       CONTAINER_MODE: worker
       WORKER_COMMAND: "php /var/www/html/artisan queue:work"
     healthcheck:
-      test: [ "CMD-SHELL", "supervisorctl status worker:worker_00" ]
+      test: [ "CMD", "healthcheck" ]
     env_file:
       - laravel.env
     depends_on:
